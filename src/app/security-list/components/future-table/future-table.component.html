@@ -1,0 +1,42 @@
+<div class="table-content" >
+  <input [(ngModel)]="searchString" (ngModelChange)="search()" type="text" class="security-filter-input" placeholder="Search symbol">
+  <div class="security-table-wrapper">
+    <div class="wrapper-header">Futures</div>
+    <table class="user-table" cellpadding="2px" cellspacing="0">
+      <thead class="table-head-custom">
+      <tr class="tr-rows">
+        <th class="table-head">Ticker</th>
+        <th class="table-head">Name</th>
+        <th class="table-head">Exchange</th>
+        <th class="table-head">Last Refresh</th>
+        <th class="table-head">Price</th>
+        <th class="table-head">Price (high)</th>
+        <th class="table-head">Price (low)</th>
+        <th class="table-head">Change</th>
+        <th class="table-head">Volume</th>
+        <th class="table-head">Contract Size</th>
+        <th class="table-head">Contract Unit</th>
+        <th class="table-head">Open interest</th>
+        <th class="table-head">Settlement Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let future of futures" class="tr-rows text-center">
+        <td>{{ future.ticker }}</td>
+        <td>{{ future.name }}</td>
+        <td>{{ future.exchange }}</td>
+        <td>{{ future.lastRefresh | date:'medium' }}</td>
+        <td>{{ future.price }}</td>
+        <td>{{ future.high }}</td>
+        <td>{{ future.low }}</td>
+        <td>{{ future.priceChange }}</td>
+        <td>{{ future.volume }}</td>
+        <td>{{ future.contractSize }}</td>
+        <td>{{ future.contractUnit }}</td>
+        <td>{{ future.openInterest }}</td>
+        <td>{{ future.settlementDate | date:'medium' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+[
+  {
+    "listingId": 4,
+    "listingType": "Futures",
+    "ticker": "ES",
+    "name": "E-mini S&P 500 Futures",
+    "exchange": "CME",
+    "lastRefresh": 1648147200,
+    "price": 4200.50,
+    "high": 4210.75,
+    "low": 4195.25,
+    "priceChange": 5.25,
+    "volume": 20000,
+    "contractSize": 50,
+    "contractUnit": "Index Points",
+    "openInterest": 15000,
+    "settlementDate": 1648838400
+  },
+  {
+    "listingId": 5,
+    "listingType": "Futures",
+    "ticker": "GC",
+    "name": "Gold Futures",
+    "exchange": "COMEX",
+    "lastRefresh": 1648147200,
+    "price": 1800.75,
+    "high": 1805.50,
+    "low": 1798.25,
+    "priceChange": 2.50,
+    "volume": 1000,
+    "contractSize": 100,
+    "contractUnit": "Troy Ounces",
+    "openInterest": 5000,
+    "settlementDate": 1648838400
+  }
+]

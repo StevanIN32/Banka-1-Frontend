@@ -79,6 +79,24 @@ export interface Forex {
   quoteCurrency: string;
 }
 
+export interface Future {
+  listingId: number;
+  listingType: string;
+  ticker: string;
+  name: string;
+  exchange: string;
+  lastRefresh : number;
+  price: number;
+  high: number;
+  low: number;
+  priceChange: number;
+  volume : number;
+  contractSize: number;
+  contractUnit: string;
+  openInterest: number;
+  settlementDate: number;
+}
+
 export interface ListingHistory {
   listingId: number;
   date: number;
