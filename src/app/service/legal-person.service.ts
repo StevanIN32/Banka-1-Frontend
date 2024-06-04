@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders   } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Customer, LegalPerson} from '../model/model';
-import { environment } from '../../../environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +26,9 @@ export class LegalPersonService {
     console.log(headers);
 
     const options = { headers: headers };
-    let url = environment.baseUrl + `/company/all`;
+    let url = environment.userService + `/company/all`;
 
-    return this.httpClient.get<LegalPerson[]>(url, options); 
+    return this.httpClient.get<LegalPerson[]>(url, options);
   }
 
   //Depending on shouldUseMockedDataForLegalPersons a mocked or real data should be returned
@@ -49,7 +49,7 @@ export class LegalPersonService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
     });
-    return this.httpClient.post(environment.baseUrl + '/company/create', {
+    return this.httpClient.post(environment.userService + '/company/create', {
       companyName: newLegalPerson.companyName,
       idNumber: newLegalPerson.idNumber,
       pib: newLegalPerson.pib,
@@ -69,9 +69,9 @@ export class LegalPersonService {
     const body = {legalPerson, customer};
     console.log(body);
 
-    return this.httpClient.post(environment.baseUrl + '/company/join', {
-      email: customer.email,
-      pib: legalPerson.pib
+    return this.httpClient.post(environment.userService + '/company/join', {
+      customerEmail: customer.email,
+      companyPib: legalPerson.pib
     },{
       headers: headers
     });

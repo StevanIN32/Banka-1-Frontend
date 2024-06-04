@@ -8,7 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import {PopupService} from "../service/popup.service";
 import { MatDialog } from '@angular/material/dialog';
 import { AddNewLegalPersonPopUpComponent } from '../add-new-legal-person-pop-up/add-new-legal-person-pop-up.component';
-import { environment } from '../../../environment';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-legal-persons',
@@ -31,7 +31,7 @@ export class LegalPersonsComponent {
 
   constructor(private legalPersonService: LegalPersonService, private router: Router, private popup:PopupService, private dialog: MatDialog) {
     let loggedUserIdAsString = sessionStorage.getItem('loggedUserID');
-    
+
     if (loggedUserIdAsString !== null) {
       this.loggedUserId = parseInt(loggedUserIdAsString);
     } else {
@@ -77,7 +77,7 @@ export class LegalPersonsComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       console.log('The dialog was closed');
-      
+
       if(! environment.shouldUseMockedDataForLegalPersons)
       {
         this.loadAllLegalPersons();

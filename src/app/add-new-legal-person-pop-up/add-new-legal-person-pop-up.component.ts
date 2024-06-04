@@ -22,9 +22,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class AddNewLegalPersonPopUpComponent {
 
-  constructor(private customerService: CustomerService, 
-    private dialogRef: MatDialogRef<AddNewLegalPersonPopUpComponent>, 
-    @Inject(MAT_DIALOG_DATA) public allLegalPersons: LegalPerson[], 
+  constructor(private customerService: CustomerService,
+    private dialogRef: MatDialogRef<AddNewLegalPersonPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public allLegalPersons: LegalPerson[],
     private popupService: PopupService,
     private legalPersonService: LegalPersonService){}
 
@@ -40,7 +40,11 @@ export class AddNewLegalPersonPopUpComponent {
     if(this.validateForm()) {
       console.log(this.addNewLegalPersonData);
       this.allLegalPersons.push(this.addNewLegalPersonData);
-      this.legalPersonService.saveNewLegalPerson(this.addNewLegalPersonData)
+      this.legalPersonService.saveNewLegalPerson(this.addNewLegalPersonData).subscribe(
+        res => {
+          if(!res) this.popupService.openPopup("Error", "Couldn't add legal person.");
+        }
+      );
       this.dialogRef.close();
     }
   }

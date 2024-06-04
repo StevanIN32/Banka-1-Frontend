@@ -6,11 +6,11 @@
 
     <div class="form-group">
         <label class="label" >Position:</label>
-        <dropdown-input 
-            [inputName]="'position'" 
-            [valueNames]="customersFullNames" 
-            [values]="customers" 
-            (valueToChange)="onSelectionChange($event)">
+        <dropdown-input
+            [inputName]="'position'"
+            [valueNames]="customersFullNames"
+            [values]="customers"
+            (selectedValue)="onSelectionChange($event)">
         </dropdown-input>
     </div>
 

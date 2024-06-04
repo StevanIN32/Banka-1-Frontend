@@ -3,5 +3,5 @@ export const environment = {
     userService: 'https://banka-1-dev.si.raf.edu.rs/user-service',
     marketService: 'https://banka-1-dev.si.raf.edu.rs/market-service',
     fetchingService: 'https://banka-1-dev.si.raf.edu.rs/fetching-service',
-    shouldUseMockedDataForLegalPersons: true
+    shouldUseMockedDataForLegalPersons: false
 }
