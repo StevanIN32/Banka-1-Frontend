@@ -3,7 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 // import { environment } from '../../../environment';
 // import { BankAccount, Exchange, Recipient, Payment, NewLimitDto } from '../model/model';
-import {BankAccount, Exchange, Recipient, Payment, NewLimitDto, User, ContractCreateDto} from '../model/model';
+import {
+  BankAccount,
+  Exchange,
+  Recipient,
+  Payment,
+  NewLimitDto,
+  User,
+  ContractCreateDto,
+  Contract
+} from '../model/model';
 import { environment } from '../../environments/environment';
 import {map} from "rxjs/operators";
 
@@ -198,7 +207,7 @@ export class BankAccountService {
     });
   }
 
-  makeAnOfferCustomer(security: any, volume: number, offer: number){
+  makeAnOfferCustomer(security: any, volume: number, offer: number) : Observable<any>{
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
     });
@@ -206,16 +215,16 @@ export class BankAccountService {
     const body: ContractCreateDto = {
       amountToBuy: volume,
       offerPrice: offer,
-      bankAccountNumber: security.bankAccount,
+      bankAccountNumber: security.bankAccountNumber,
       listingId: security.listingId,
       listingType: security.listingType,
       ticker: security.ticker
     }
-    return this.httpClient.post("/contract/customer",null,options);
+    return this.httpClient.post(environment.userService + "/contract/customer", body, options);
   }
 
 
-  makeAnOfferEmployee(security: any, volume: number, offer: number) {
+  makeAnOfferEmployee(security: any, volume: number, offer: number) : Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
     });
@@ -223,13 +232,13 @@ export class BankAccountService {
     const body: ContractCreateDto = {
       amountToBuy: volume,
       offerPrice: offer,
-      bankAccountNumber: security.bankAccount,
+      bankAccountNumber: security.bankAccountNumber,
       listingId: security.listingId,
       listingType: security.listingType,
       ticker: security.ticker
     }
 
-    return this.httpClient.post("/contract/employee", body, options);
+    return this.httpClient.post(environment.userService + "/contract/employee", body, options);
   }
 
   makeAnOffer(security: any, volume: number, offer: number) {

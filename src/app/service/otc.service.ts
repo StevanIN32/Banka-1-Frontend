@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom, Observable} from "rxjs";
 import {environment} from "../../environments/environment";
-import {Contract} from "../model/model";
+import {Contract, PublicCapitalDto} from "../model/model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,44 +12,27 @@ export class OtcService {
 
   constructor(private http: HttpClient) { }
 
-  async getAllCustomerContracts() {
+  getAllCustomerContracts() : Observable<Contract[]>{
     const jwt = sessionStorage.getItem("jwt");
 
-    if(!jwt) return [];
-
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
-    });
-
-    let resp;
-    try {
-      resp = (await firstValueFrom(
-        this.http.get(environment.userService + "/contract/customer/getAllContracts", {headers})
-      )) as Contract[];
-    } catch (e) {
-      return [];
-    }
-    return resp;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${jwt}`
+      })
+    };
+    return this.http.get<Contract[]>(environment.userService + "/contract/customer/getAllContracts", httpOptions);
   }
 
-  async getAllSupervisorContracts() {
+  getAllSupervisorContracts() : Observable<Contract[]> {
     const jwt = sessionStorage.getItem("jwt");
 
-    if(!jwt) return [];
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${jwt}`
+      })
+    };
+    return this.http.get<Contract[]>(environment.userService + "/contract/supervisor/getAllContracts", httpOptions);
 
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
-    });
-
-    let resp;
-    try {
-      resp = (await firstValueFrom(
-        this.http.get(environment.userService + "/contract/supervisor/getAllContracts", {headers})
-      )) as Contract[];
-    } catch (e) {
-      return [];
-    }
-    return resp;
   }
 
   public denyOTC(contractId: number): Observable<boolean> {
@@ -58,10 +41,11 @@ export class OtcService {
     });
 
     const jsonData = {
-      message: "Admin denied this contract."
+      message: "Denied this contract."
     };
 
     return this.http.put<boolean>(`${this.apiUrl}/contract/deny/${contractId}`, jsonData, {headers});
+
   }
 
   public approveOTC(contractId: number): Observable<boolean> {
@@ -69,7 +53,23 @@ export class OtcService {
       'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
     });
 
-    return this.http.put<boolean>(`${this.apiUrl}/contract/approve/${contractId}`, {headers});
+    const jsonData = {
+      message: "Admin approved this contract."
+    };
+
+    return this.http.put<boolean>(`${this.apiUrl}/contract/approve/${contractId}`, jsonData, {headers});
   }
 
+
+  public acceptOTC(contractId: number): Observable<boolean> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+    });
+
+    const jsonData = {
+      message: "Customer accepted this contract."
+    };
+
+    return this.http.put<boolean>(`${this.apiUrl}/contract/accept/${contractId}`, jsonData,{headers});
+  }
 }

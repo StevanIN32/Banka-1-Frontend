@@ -17,6 +17,8 @@ import { forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TableComponentStatusModule } from '../welcome/redesign/TableComponentStatus';
 import { PopupService } from '../service/popup.service';
+import {TransformStatusPipeModule} from "../otc-customer/TransformStatusPipe";
+import {TransformContractsPipeModule} from "../otc-customer/TransformContractsPipe";
 
 @Component({
   selector: 'app-otc',
@@ -31,17 +33,22 @@ import { PopupService } from '../service/popup.service';
     TableComponentModule,
     TransformSecuritiesPipeModule,
     TableComponentStatusModule,
+    TransformStatusPipeModule,
+    TransformContractsPipeModule,
   ],
   templateUrl: './otc.component.html',
   styleUrl: './otc.component.css',
 })
 export class OtcComponent {
   headersOTCs = [
-    'Owner',
-    'Stock',
-    'Outstanding Shares',
-    'Exchange Name',
-    'Divided Yield',
+    'Buyer',
+    'Seller',
+    'Comment',
+    'Created',
+    'Realized',
+    'Ticker',
+    'Amount',
+    'Price',
   ];
   headersPublic = [
     'Security',
@@ -99,18 +106,22 @@ export class OtcComponent {
     //   this.otcs = this.mergeLists(contracts, stocks);
     //   console.log('OTCs:', this.otcs);
     // });
-
-    forkJoin({
-      contracts: this.otcService.getAllSupervisorContracts(),
-      stocks: this.stockService.getStocks()
-    }).subscribe(({ contracts, stocks }) => {
+    this.otcService.getAllSupervisorContracts().subscribe((contracts) => {
       this.contracts = contracts;
-      this.stocks = stocks;
-      this.otcs = this.mergeLists(contracts, stocks);
-      console.log('Contracts:', contracts);
-      console.log('Stocks:', stocks);
-      console.log('OTCs:', this.otcs);
+      console.log("BBSD");
+      console.log(this.contracts);
     });
+    // forkJoin({
+    //   contracts: this.otcService.getAllSupervisorContracts(),
+    //   stocks: this.stockService.getStocks()
+    // }).subscribe(({ contracts, stocks }) => {
+    //   this.contracts = contracts;
+    //   this.stocks = stocks;
+    //   this.otcs = this.mergeLists(contracts, stocks);
+    //   console.log('Contracts:', contracts);
+    //   console.log('Stocks:', stocks);
+    //   console.log('OTCs:', this.otcs);
+    // });
   }
 
   async loadPublicOffers() {
@@ -145,15 +156,18 @@ export class OtcComponent {
     this.selectedTab = tabName;
   }
 
-  updateOTCStatus(otc: any, newStatus: 'Approved' | 'Denied') {
-    if (otc.status === newStatus) return;
+  updateOTCStatus(contract: any, newStatus: 'Approved' | 'Denied') {
+    // if (contract.status === newStatus) return;
 
-    const contractId = this.otcToContractIdMap.get(otc);
-    console.log('Contract ID:', contractId);
+    // const contractId = this.otcToContractIdMap.get(contract);
+    var contractId = contract.contractId;
+    // console.log(contract);
+    //
+    // console.log('Contract ID:', contractId);
 
     if (contractId) {
       if (newStatus === 'Approved')
-        this.otcService.approveOTC(contractId).subscribe(
+        this.otcService.acceptOTC(contractId).subscribe(
           (response) => {
             console.log('Response to successfully changing status:' + response);
           },
@@ -171,17 +185,8 @@ export class OtcComponent {
           }
         );
     } else {
-      console.error('Contract ID not found for OTC', otc);
+      console.error('Contract ID not found for OTC', contract);
     }
-
-    for (let current of this.otcs) {
-      if (current === otc) {
-        current.status = newStatus;
-        break;
-      }
-    }
-    // this loop above or this below
-    // this.loadOTCs();
   }
 
   mergeLists(contracts: Contract[], stocks: StockListing[]): OTC[] {

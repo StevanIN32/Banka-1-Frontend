@@ -21,6 +21,8 @@ import {CustomerService} from "../service/customer.service";
 import {environment} from "../../environments/environment";
 import {OrderService} from "../service/order.service";
 import {TransformPublicSecuritiesPipeModule} from "../orders/TransformPublicSecuritiesPipe";
+import {TransformContractsPipeModule} from "./TransformContractsPipe";
+import {TransformStatusPipeModule} from "./TransformStatusPipe";
 import {any, string} from "zod";
 
 @Component({
@@ -37,32 +39,30 @@ import {any, string} from "zod";
     TransformSecuritiesPipeModule,
     TableComponentStatusModule,
     TransformPublicSecuritiesPipeModule,
+    TransformContractsPipeModule,
+    TransformStatusPipeModule,
   ],
   templateUrl: './otc-customer.component.html',
   styleUrl: './otc-customer.component.css',
 })
 export class OtcCustomerComponent {
   headersOTCs = [
-    'Owner',
-    'Stock',
-    'Outstanding Shares',
-    'Exchange Name',
-    'Divided Yield',
+    'Buyer',
+    'Seller',
+    'Comment',
+    'Created',
+    'Realized',
+    'Ticker',
+    'Amount',
+    'Price',
   ];
+
   headersPublic = [
     'Security',
     'Symbol',
     'Amount',
-    'Price',
     'Last Modified',
     'Owner',
-  ];
-  headersShares = [
-    'Owner',
-    'Stock',
-    'Outstanding Shares',
-    'Exchange Name',
-    'Last Divided Yield',
   ];
 
   selectedTab: string = 'public';
@@ -90,11 +90,8 @@ export class OtcCustomerComponent {
   ) {}
 
   async ngOnInit() {
+    await this.loadOTCs();
     this.initializeCustomer();
-    this.loadOTCs();
-    // this.loadPublicOffers();
-    // this.loadActiveBuy();
-    // this.loadActiveSell();
     this.getPublicSecurities();
   }
 
@@ -141,82 +138,30 @@ export class OtcCustomerComponent {
     //   this.otcs = this.mergeLists(contracts, stocks);
     //   console.log('OTCs:', this.otcs);
     // });
-    forkJoin({
-      contracts: this.otcService.getAllCustomerContracts(),
-      stocks: this.stockService.getStocks()
-    }).subscribe(({ contracts, stocks }) => {
+    this.otcService.getAllCustomerContracts().subscribe((contracts) => {
       this.contracts = contracts;
-      this.stocks = stocks;
-      this.otcs = this.mergeLists(contracts, stocks);
-      // console.log('Contracts:', contracts);
-      // console.log('Stocks:', stocks);
-      // console.log('OTCs:', this.otcs);
+      console.log("ASD");
+      console.log(this.contracts);
     });
+    // forkJoin({
+    //   contracts: this.otcService.getAllCustomerContracts(),
+    //   stocks: this.stockService.getStocks()
+    // }).subscribe(({ contracts, stocks }) => {
+    //   this.contracts = contracts;
+    //   this.stocks = stocks;
+    //   this.otcs = this.mergeLists(contracts, stocks);
+    //   // console.log('Contracts:', contracts);
+    //   // console.log('Stocks:', stocks);
+    //   // console.log('OTCs:', this.otcs);
+    // });
 
   }
 
-  // async loadPublicOffers() {
-  //   this.http
-  //     .get<PublicOffer[]>('/assets/mocked_banking_data/public-offers.json')
-  //     .subscribe((offers) => {
-  //       this.publicOffers = offers;
-  //     });
-  // }
   getPublicSecurities() {
     this.orderService.getPublicStocks().subscribe(res => {
       this.publicSecurities = res;
     })
   }
-
-  // async getPublicSecurities() {
-  //   const jwt = sessionStorage.getItem("jwt");
-  //
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Authorization': `Bearer ${jwt}`
-  //     })
-  //   };
-  //   this.http.get<PublicCapitalDto[]>(`${environment.userService}/capital/public/listing/all`, httpOptions)
-  //     .subscribe({
-  //       next: (offers) => {
-  //         this.publicSecurities = offers;
-  //         this.matchPublicSecuritiesWithOrders();
-  //         console.log(this.orders);
-  //       },
-  //       error: (error) => {
-  //         console.error('Error fetching public securities:', error);
-  //       }
-  //     });
-  //
-  // }
-  // private matchPublicSecuritiesWithOrders(): void {
-  //   this.publicSecurities.forEach(security => {
-  //     const matchingOrders = this.orders.filter(order => order.listingId === security.listingId);
-  //     if (matchingOrders.length > 0) {
-  //       // Handle the matched orders as needed
-  //     }
-  //   });
-  // }
-  // async loadActiveSell() {
-  //   // Customer->accountIds->accountNumber
-  //   // I onda upored accountNumber sa svim contractima i ako se poklapa
-  //   // Sad je pitanje ako je SELL onda offeri koje sam ja dobio
-  //   // Ako je BUY onda offeri koje sam ja poslao
-  //
-  //   this.http
-  //     .get<OTC[]>('/assets/mocked_banking_data/otc-mocked.json')
-  //     .subscribe((offers) => {
-  //       this.activeSell = offers;
-  //     });
-  // }
-  //
-  // async loadActiveBuy() {
-  //   this.http
-  //     .get<OTC[]>('/assets/mocked_banking_data/otc-mocked.json')
-  //     .subscribe((offers) => {
-  //       this.activeBuy = offers;
-  //     });
-  // }
 
   togglePopupOffer(row: any) {
     this.popup.openPublicSecuritiesPopup(row);
@@ -226,13 +171,14 @@ export class OtcCustomerComponent {
     this.selectedTab = tabName;
   }
 
-  updateOTCStatus(otc: any, newStatus: 'Approved' | 'Denied') {
-    if (otc.status === newStatus) return;
+  updateOTCStatus(contract: any, newStatus: 'Approved' | 'Denied') {
+    // if (contract.status === newStatus) return;
 
-    const contractId = this.otcToContractIdMap.get(otc);
-    console.log(otc);
-
-    console.log('Contract ID:', contractId);
+    // const contractId = this.otcToContractIdMap.get(contract);
+    var contractId = contract.contractId;
+    // console.log(contract);
+    //
+    // console.log('Contract ID:', contractId);
 
     if (contractId) {
       if (newStatus === 'Approved')
@@ -254,15 +200,15 @@ export class OtcCustomerComponent {
           }
         );
     } else {
-      console.error('Contract ID not found for OTC', otc);
+      console.error('Contract ID not found for OTC', contract);
     }
 
-    for (let current of this.otcs) {
-      if (current === otc) {
-        current.status = newStatus;
-        break;
-      }
-    }
+    // for (let current of this.otcs) {
+    //   if (current === contract) {
+    //     current.status = newStatus;
+    //     break;
+    //   }
+    // }
     // this loop above or this below
     // this.loadOTCs();
   }

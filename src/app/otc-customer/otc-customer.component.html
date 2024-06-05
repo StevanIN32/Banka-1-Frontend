@@ -21,37 +21,6 @@
         <hr />
       </div>
 
-      <div class="overview-tab" *ngIf="selectedTab === 'otc-history'">
-        <app-dynamic-table-status
-          [headersArray]="headersOTCs"
-          [dataArray]="otcs"
-          [showStatus]="true"
-        >
-          <ng-template #statusColumn let-row>
-            <div class="dropdown">
-
-                {{ row.status }}
-<!--              <ul class="dropdown-menu" aria-labelledby="dropdownMenu">-->
-<!--                <li>-->
-<!--                  <a-->
-<!--                    class="dropdown-item"-->
-<!--                    (click)="updateOTCStatus(row, 'Approved')"-->
-<!--                    >Approve</a-->
-<!--                  >-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <a-->
-<!--                    class="dropdown-item"-->
-<!--                    (click)="updateOTCStatus(row, 'Denied')"-->
-<!--                    >Deny</a-->
-<!--                  >-->
-<!--                </li>-->
-<!--              </ul>-->
-            </div>
-          </ng-template>
-        </app-dynamic-table-status>
-      </div>
-
       <div class="securities-tab" *ngIf="selectedTab === 'public'">
         <app-dynamic-table [headersArray]="headersPublic" [dataArray]="publicSecurities | transformPublicSecurities" [showActions]="true">
           <ng-template #actionsColumn let-row>
@@ -62,10 +31,24 @@
         </app-dynamic-table>
       </div>
 
+      <div class="overview-tab" *ngIf="selectedTab === 'otc-history'">
+        <app-dynamic-table-status
+          [headersArray]="headersOTCs"
+          [dataArray]="contracts | transformContracts"
+          [showStatus]="true"
+        >
+          <ng-template #statusColumn let-row>
+            <div class="dropdown">
+                {{ row | transformStatus }}
+            </div>
+          </ng-template>
+        </app-dynamic-table-status>
+      </div>
+
       <div class="overview-tab" *ngIf="selectedTab === 'active-sell'">
         <app-dynamic-table-status
           [headersArray]="headersOTCs"
-          [dataArray]="activeSell"
+          [dataArray]="contracts | transformContracts"
           [showStatus]="true"
         >
           <ng-template #statusColumn let-row>
@@ -75,20 +58,20 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {{ row.status }}
+                {{ row | transformStatus }}
               </div>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li>
                   <a
                     class="dropdown-item"
-                    (click)="updateOTCStatus(row, 'Approved')"
+                    (click)="updateOTCStatus(row.original, 'Approved')"
                     >Approve</a
                   >
                 </li>
                 <li>
                   <a
                     class="dropdown-item"
-                    (click)="updateOTCStatus(row, 'Denied')"
+                    (click)="updateOTCStatus(row.original, 'Denied')"
                     >Deny</a
                   >
                 </li>
@@ -101,7 +84,7 @@
       <div class="overview-tab" *ngIf="selectedTab === 'active-buy'">
         <app-dynamic-table-status
           [headersArray]="headersOTCs"
-          [dataArray]="activeBuy"
+          [dataArray]="contracts | transformContracts"
           [showStatus]="true"
         >
           <ng-template #statusColumn let-row>
@@ -110,7 +93,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {{ row.status }}
+                {{ row | transformStatus }}
               </div>
 
             </div>
