@@ -57,7 +57,7 @@ export class FutureViewComponent {
   }
 
   goBack() {
-    this.router.navigateByUrl(`/security/all`);
+    this.router.navigateByUrl(`/securities`);
   }
 
   async ngOnInit() {
