@@ -7,7 +7,11 @@ import {Contract} from "../model/model";
 export class TransformStatusPipe implements PipeTransform {
 
   transform(contract: Contract): string {
-    if (!contract.bankApproval || !contract.sellerApproval) {
+    console.log("CCCCCCCCCCCC");
+    console.log(contract);
+    if (contract.bankApproval && !contract.sellerApproval) {
+      return 'Waiting for bank approval';
+    } else if (!contract.bankApproval || !contract.sellerApproval) {
       return 'Denied';
     } else if (contract.bankApproval && contract.sellerApproval) {
       return 'Approved';

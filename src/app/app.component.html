@@ -21,19 +21,19 @@
             <div>Welcome</div>
           </div>
 
-          <div [routerLink]="'/user/list'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin || isSupervizor">
+          <div [routerLink]="'/user/list'" class="sidebar-item" routerLinkActive="active" *ngIf="(isAdmin || isSupervizor) && !isLegalPerson">
             <div>Admin panel</div>
           </div>
 
-          <div [routerLink]="'/bank-accounts-admin'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin" >
+          <div [routerLink]="'/bank-accounts-admin'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin && !isLegalPerson" >
             <div>Bank accounts</div>
           </div>
 
-          <div [routerLink]="'/customer/all'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin">
+          <div [routerLink]="'/customer/all'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin && !isLegalPerson">
             <div>Customer</div>
           </div>
 
-          <div [routerLink]="'/securities'" class="sidebar-item" routerLinkActive="active"  *ngIf="!isLegalPerson && (isAdmin || isAgent || isEmployee)">
+          <div [routerLink]="'/security/all'" class="sidebar-item" routerLinkActive="active"  *ngIf="(isAdmin || isAgent || isSupervizor) && !isLegalPerson">
             <div>Securities</div>
           </div>
 
@@ -41,23 +41,23 @@
             <div>Security</div>
           </div>
 
-          <div [routerLink]="'/orders/legal'" class="sidebar-item" routerLinkActive="active" *ngIf="isLegalPerson">
-            <div>Orders</div>
-          </div>
-
           <div [routerLink]="'/orders/regular'" class="sidebar-item" routerLinkActive="active" *ngIf="(isAdmin || isSupervizor || isAgent) && !isLegalPerson">
             <div>Orders</div>
           </div>
 
-          <div [routerLink]="'/legal-persons'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin">
+          <div [routerLink]="'/orders/legal'" class="sidebar-item" routerLinkActive="active" *ngIf="isLegalPerson">
+            <div>Orders</div>
+          </div>
+
+          <div [routerLink]="'/legal-persons'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin && !isLegalPerson">
             <div>Legal persons</div>
           </div>
 
-          <div [routerLink]="'/bank-accounts'" class="sidebar-item" routerLinkActive="active" *ngIf="isCustomer">
+          <div [routerLink]="'/bank-accounts'" class="sidebar-item" routerLinkActive="active" *ngIf="isCustomer && !isLegalPerson">
             <div>Bank accounts</div>
           </div>
 
-          <div [routerLink]="'/bank-profit'" class="sidebar-item" routerLinkActive="active"*ngIf="isAdmin" >
+          <div [routerLink]="'/bank-profit'" class="sidebar-item" routerLinkActive="active"*ngIf="isAdmin && !isLegalPerson" >
             <div>Profit</div>
           </div>
 
@@ -69,11 +69,11 @@
             <div>OTC</div>
           </div>
 
-          <div [routerLink]="'/margin'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin || isAgent || isSupervizor">
+          <div [routerLink]="'/margin'" class="sidebar-item" routerLinkActive="active" *ngIf="(isAdmin || isAgent || isSupervizor) && !isLegalPerson">
             <div>Margin</div>
           </div>
 
-          <div [routerLink]="'/exchange-transaction-report'" class="sidebar-item" routerLinkActive="active" *ngIf="isAdmin || isAgent || isSupervizor">
+          <div [routerLink]="'/exchange-transaction-report'" class="sidebar-item" routerLinkActive="active" *ngIf="(isAdmin || isAgent || isSupervizor) && !isLegalPerson">
             <div>Exchange Transaction Report</div>
           </div>
 
@@ -89,7 +89,7 @@
         <span>Cards</span>
       </div> -->
 
-          <div class="sidebar-item-wrapper" *ngIf="isCustomer">
+          <div class="sidebar-item-wrapper" *ngIf="isCustomer && !isLegalPerson">
             <div class="sidebar-item" (click)="setActiveItem('openPayments')">
               <div>Payments</div>
               <img
@@ -128,7 +128,7 @@
             </div>
           </div>
 
-          <div [routerLink]="'/cards'" class="sidebar-item"routerLinkActive="active" *ngIf="isCustomer">
+          <div [routerLink]="'/cards'" class="sidebar-item"routerLinkActive="active" *ngIf="isCustomer  && !isLegalPerson">
             <div>Cards</div>
           </div>
 

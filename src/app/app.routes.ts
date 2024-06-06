@@ -83,13 +83,19 @@ export const routes: Routes = [
   {
     path: 'security',
     children: [
+      { path: 'all', component: SecurityListComponent },
       { path: "stock/:ticker", component: StockViewComponent },
       { path: 'forex/:ticker', component: ForexViewComponent},
       { path: 'future/:ticker', component: FutureViewComponent},
-      { path: 'legal', component: SecuritiesLegalPersonsComponent},
     ],
-    canActivate: [LegalPersonGuard],
+    canActivate: [PositionsGuard],
+    data: { roles: ['agent', 'supervizor', 'admin'] }
   },
+
+  {
+    path: 'security/legal', component: SecuritiesLegalPersonsComponent, canActivate: [LegalPersonGuard]
+  },
+
   {
     path: 'securities',
     component: SecurityListComponent,

@@ -92,6 +92,67 @@ export class SecuritiesLegalPersonsComponent {
     // this.stockMockData()
   }
 
+
+
+  loadFutures(): void {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + sessionStorage.getItem('jwt'),
+    });
+    this.http
+    this.http.get<Future[]>(environment.marketService + '/market/listing/get/futures',{ headers })
+      .subscribe(
+        (res) =>
+          (this.futuresBackup = this.futures =
+            res.map((val) => {
+              val.settlementDate *= 1000;
+              val.lastRefresh *= 1000;
+              return val;
+            }))
+      );
+    // this.mockFutureData()
+  }
+
+
+
+  loadOptions() {
+    this.optionsService.getOptions().subscribe(response => {
+      this.options = response;
+    })
+    // this.optionsDataMock()
+  }
+
+
+  setSelectedTab(tab: string) {
+    console.log(tab);
+    this.selectedTab = tab;
+  }
+
+
+  openBuyStockPopup(stockId: number): void{
+    this.popupService.openBuyOrderPopup({id: stockId, type: ListingType.STOCK});
+  }
+
+  openBuyFuturePopup(futureId: number): void{
+    this.popupService.openBuyOrderPopup({id: futureId, type: ListingType.FUTURE});
+  }
+
+  async buyOption(options: OptionsDto){
+    let response = await this.orderService.buyOrderOptions(options.listingId.toString(), options.volume);
+    if (response) {
+      this.popupService.openCustomMessage({
+        title: "Options",
+        header: "Purchase Successful!",
+        message: "Your stock option has been successfully bought."
+      })
+    } else {
+      this.popupService.openCustomMessage({
+        title: "Options",
+        header: "Purchase Failed!",
+        message: "You do not have sufficient funds to buy this stock option."
+      })
+    }
+  }
+
   stockMockData(){
     const exp1: StockListing = {
       listingId: 123,
@@ -143,72 +204,6 @@ export class SecuritiesLegalPersonsComponent {
     this.securities.push(exp3)
   }
 
-  loadFutures(): void {
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + sessionStorage.getItem('jwt'),
-    });
-    this.http
-    this.http.get<Future[]>(environment.marketService + '/market/listing/get/futures',{ headers })
-      .subscribe(
-        (res) =>
-          (this.futuresBackup = this.futures =
-            res.map((val) => {
-              val.settlementDate *= 1000;
-              val.lastRefresh *= 1000;
-              return val;
-            }))
-      );
-    // this.mockFutureData()
-  }
-
-  mockFutureData(){
-    const exp1 : Future = {
-      listingId: 123,
-      ticker: "string",
-      listingType: "string",
-      name: "string",
-      exchangeName: "string",
-      lastRefresh: 123,
-      price: 123,
-      high: 123,
-      low: 123,
-      priceChange: 123,
-      volume: 123,
-      contractSize: 123,
-      contractUnit: "string",
-      openInterest: 123,
-      settlementDate: 123
-    }
-    const exp2 : Future = {
-      listingId: 123,
-      ticker: "string",
-      listingType: "string",
-      name: "string",
-      exchangeName: "string",
-      lastRefresh: 123,
-      price: 123,
-      high: 123,
-      low: 123,
-      priceChange: 123,
-      volume: 123,
-      contractSize: 123,
-      contractUnit: "string",
-      openInterest: 123,
-      settlementDate: 123
-    }
-
-    this.futures.push(exp1);
-    this.futures.push(exp2);
-
-  }
-
-  loadOptions() {
-    this.optionsService.getOptions().subscribe(response => {
-      this.options = response;
-    })
-    // this.optionsDataMock()
-  }
-
   optionsDataMock(){
     const exp1: OptionsDto = {
       ticker: "string",
@@ -254,35 +249,46 @@ export class SecuritiesLegalPersonsComponent {
     this.options.push(exp2)
   }
 
-  setSelectedTab(tab: string) {
-    console.log(tab);
-    this.selectedTab = tab;
-  }
-
-
-  openBuyStockPopup(stockId: number): void{
-    this.popupService.openBuyOrderPopup({id: stockId, type: ListingType.STOCK});
-  }
-
-  openBuyFuturePopup(futureId: number): void{
-    this.popupService.openBuyOrderPopup({id: futureId, type: ListingType.FUTURE});
-  }
-
-  async buyOption(options: OptionsDto){
-    let response = await this.orderService.buyOrderOptions(options.listingId.toString(), options.volume);
-    if (response) {
-      this.popupService.openCustomMessage({
-        title: "Options",
-        header: "Purchase Successful!",
-        message: "Your stock option has been successfully bought."
-      })
-    } else {
-      this.popupService.openCustomMessage({
-        title: "Options",
-        header: "Purchase Failed!",
-        message: "You do not have sufficient funds to buy this stock option."
-      })
+  mockFutureData(){
+    const exp1 : Future = {
+      listingId: 123,
+      ticker: "string",
+      listingType: "string",
+      name: "string",
+      exchangeName: "string",
+      lastRefresh: 123,
+      price: 123,
+      high: 123,
+      low: 123,
+      priceChange: 123,
+      volume: 123,
+      contractSize: 123,
+      contractUnit: "string",
+      openInterest: 123,
+      settlementDate: 123
     }
+    const exp2 : Future = {
+      listingId: 123,
+      ticker: "string",
+      listingType: "string",
+      name: "string",
+      exchangeName: "string",
+      lastRefresh: 123,
+      price: 123,
+      high: 123,
+      low: 123,
+      priceChange: 123,
+      volume: 123,
+      contractSize: 123,
+      contractUnit: "string",
+      openInterest: 123,
+      settlementDate: 123
+    }
+
+    this.futures.push(exp1);
+    this.futures.push(exp2);
+
   }
+
 
 }

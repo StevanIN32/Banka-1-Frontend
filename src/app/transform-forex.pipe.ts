@@ -9,17 +9,18 @@ export class TransformForexPipe implements PipeTransform {
   transform(forexs: Forex[]): any[] {
     return forexs.map((forex) => {
       return {
-        ticker: forex.ticker,
-        name: forex.name,
-        exchangeName: forex.exchangeName,
-        lastRefresh: new Date(forex.lastRefresh).toLocaleString(),
-        price: forex.price,
-        high: forex.high,
-        low: forex.low,
-        priceChange: forex.priceChange,
-        volume: forex.volume,
-        baseCurrency: forex.baseCurrency,
         quoteCurrency: forex.quoteCurrency,
+        baseCurrency: forex.baseCurrency,
+        price: forex.price,
+        exchangeName: forex.exchangeName,
+
+        // ticker: forex.ticker,
+        // name: forex.name,
+        // lastRefresh: new Date(forex.lastRefresh).toLocaleString(),
+        // high: forex.high,
+        // low: forex.low,
+        // priceChange: forex.priceChange,
+        // volume: forex.volume,
         originalForex: forex,
       };
     });

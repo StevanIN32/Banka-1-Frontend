@@ -35,15 +35,13 @@
         <table>
           <thead>
             <tr>
-              <th>Listing Type</th>
-              <th>Order Type</th>
-              <th>Status</th>
-              <th>Limit Value</th>
-              <th>Stop Value</th>
-              <th>Fee</th>
+              <th>Security</th>
+              <th>Transaction</th>
+              <th>Symbol</th>
+              <th>Amount</th>
               <th>Price</th>
-              <th>All Or None</th>
-              <th>Updated At</th>
+              <th>Status</th>
+              <th>Last Modified</th>
             </tr>
           </thead>
           <tbody>
@@ -51,11 +49,9 @@
               <td>{{ order.listingType }}</td>
               <td>{{ order.orderType }}</td>
               <td>{{ order.status }}</td>
-              <td>{{ order.limitValue }}</td>
-              <td>{{ order.stopValue }}</td>
-              <td>{{ order.fee }}</td>
+              <td>{{ order.contractSize }}</td>
               <td>{{ order.price }}</td>
-              <td>{{ order.allOrNone }}</td>
+              <td>{{ order.status }}</td>
               <td>{{ order.updatedAt * 1000 | date:'short' }}</td>            </tr>
           </tbody>
         </table>
@@ -65,16 +61,13 @@
         <table>
           <thead>
           <tr>
-            <th>Listing Type</th>
-            <th>Order Type</th>
-            <th>Status</th>
-            <th>Limit Value</th>
-            <th>Stop Value</th>
-            <th>Fee</th>
+            <th>Security</th>
+            <th>Transaction</th>
+            <th>Symbol</th>
+            <th>Amount</th>
             <th>Price</th>
-            <th>All Or None</th>
-            <th>Updated At</th>
-            <th>Actions</th>
+            <th>Status</th>
+            <th>Last Modified</th>
           </tr>
           </thead>
           <tbody>
@@ -82,11 +75,9 @@
             <td>{{ order.listingType }}</td>
             <td>{{ order.orderType }}</td>
             <td>{{ order.status }}</td>
-            <td>{{ order.limitValue }}</td>
-            <td>{{ order.stopValue }}</td>
-            <td>{{ order.fee }}</td>
+            <td>{{ order.contractSize }}</td>
             <td>{{ order.price }}</td>
-            <td>{{ order.allOrNone }}</td>
+            <td>{{ order.status }}</td>
             <td>{{ order.updatedAt * 1000 | date:'short' }}</td>
             <td>
               <div
@@ -106,7 +97,7 @@
 
 
       <div class="securities-tab" *ngIf="selectedTab === 'securities'">
-        <app-dynamic-table [headersArray]="headersSecurities" [dataArray]="securities | transformPublicSecurities" [showActions]="true">
+        <app-dynamic-table [headersArray]="headersSecurities" [dataArray]="securities | transformSecurities" [showActions]="true">
           <ng-template #actionsColumn let-row>
             <div id="helperDiv">
               <orange-button [buttonName]="'Sell'" (click)="sellOrder(row.original)"></orange-button>

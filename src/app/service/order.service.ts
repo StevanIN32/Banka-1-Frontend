@@ -226,8 +226,13 @@ export class OrderService {
       listingId: listingId,
       listingType: ListingType.OPTIONS,
       contractSize: contractSize,
+      limitValue: null,
+      stopValue: null,
       allOrNone: false
     };
+
+    console.log("buy options")
+    console.log(orderRequest)
 
 
     try {
@@ -258,7 +263,8 @@ export class OrderService {
       stopValue: stopValue,
       allOrNone: allOrNone
     };
-    console.log(orderRequest);
+    console.log("sell order")
+    console.log(orderRequest)
 
     try {
       const response = await this.http.post<boolean>(
@@ -304,19 +310,17 @@ export class OrderService {
 
 
   getPublicStocks(): Observable<PublicCapitalDto[]> {
-  // getPublicSecurities(): Observable<any> {
     const jwt = sessionStorage.getItem("jwt");
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${jwt}`
+          'Authorization': `Bearer ${jwt}`
       })
     };
     return this.http.get<PublicCapitalDto[]>(environment.userService + '/capital/public/all', httpOptions);
-    // return this.http.get<User>(environment.userService + '/publicSecurities', httpOptions);
-    // return this.http.get<User>(environment.userService + '/capital/public/listing/all', httpOptions);
   }
 
+  //
   getAllStocks(): Observable<StockListing[]> {
     const jwt = sessionStorage.getItem("jwt");
 
@@ -327,6 +331,7 @@ export class OrderService {
     };
     return this.http.get<StockListing[]>(environment.marketService + '/market/listing/get/stock', httpOptions);
   }
+
 
   changePublicValue(listingType: ListingType, listingId: number, publicValue: number): Observable<boolean> {
     const jwt = sessionStorage.getItem("jwt");
@@ -342,8 +347,10 @@ export class OrderService {
       listingId: listingId,
       addToPublic: publicValue
     }
-    return this.http.put<boolean>(environment.userService + '/capital/customer/addPublic/', body, httpOptions);
-    // return this.http.put<User>(environment.userService + '/changePublicValue/' + id , body, httpOptions);
+
+    console.log("change public value")
+    console.log(body)
+    return this.http.put<boolean>(environment.userService + '/capital/customer/addPublic', body, httpOptions);
   }
 
 

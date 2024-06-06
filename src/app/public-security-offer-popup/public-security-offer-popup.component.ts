@@ -48,8 +48,6 @@ export class PublicSecurityOfferPopupComponent {
         sessionStorage.getItem('role') === 'agent' ||
         sessionStorage.getItem('role') === 'supervizor';
       this.isCustomer = sessionStorage.getItem('role') === 'customer';
-      // console.log(this.security.amount);
-      // console.log(this.security.publicOffers.id.amount);
 
     }
 
@@ -63,10 +61,7 @@ export class PublicSecurityOfferPopupComponent {
           const volume = parseFloat(this.volumeOfStock);
           const offer = parseFloat(this.priceOffer);
           if (volume >= 0 || offer >= 0) {
-            console.log("SECURITY");
-            console.log(this.security)
-            if (volume <= this.security.amount) {
-              // this.bankAccountService.makeAnOffer(this.security, volume, offer);
+            if (volume < offer && volume <= this.security.amount) {
               if (this.isCustomer) {
                 this.bankAccountService.makeAnOfferCustomer(this.security, volume, offer).subscribe( res => {
                   console.log(res);
@@ -80,12 +75,6 @@ export class PublicSecurityOfferPopupComponent {
               }
               this.warnMessage = "";
               this.dialogRef.close();
-              // if (volume >= 0 || offer >= 0) { // Ako je volume vece od onoga sto je ponudjeno na trzistu
-              // if (volume >= this.security.amount) { // Ako je volume vece od onoga sto je ponudjeno na trzistu
-              //   this.warnMessage = "Asked volume too high."
-              // } else {
-              //   this.bankAccountService.makeAnOffer(this.security, volume, offer);
-              // }
             } else {
               this.warnMessage = "Asked volume too high."
             }

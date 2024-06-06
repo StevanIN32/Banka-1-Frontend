@@ -26,7 +26,6 @@
             (click)="setSelectedTab('stocks')"
             [ngClass]="selectedTab === 'stocks' ? 'tab tab-active' : 'tab'"
           >
-<!--            *ngIf="isLegalPerson"-->
             Stock
           </div>
 
@@ -34,16 +33,15 @@
             (click)="setSelectedTab('future')"
             [ngClass]="selectedTab === 'future' ? 'tab tab-active' : 'tab'"
           >
-<!--            *ngIf="isLegalPerson"-->
             Future
           </div>
 
-          <!-- <div
+          <div
             (click)="setSelectedTab('forex')"
             [ngClass]="selectedTab === 'forex' ? 'tab tab-active' : 'tab'"
           >
             Forex
-          </div> -->
+          </div>
           <div
             (click)="setSelectedTab('options')"
             [ngClass]="selectedTab === 'options' ? 'tab tab-active' : 'tab'"
@@ -70,7 +68,7 @@
           [showActions]="true"
         >
           <ng-template #actionsColumn let-row>
-            <button class="buy-security" (click)="openBuyStockPopup(row.originalStock.listingId)">BUY</button>
+            <button class="buy-security" (click)="navigateToStock(row.originalStock.listingId)">BUY</button>
           </ng-template>
         </app-dynamic-table>
 
@@ -92,24 +90,17 @@
           [showActions]="true"
         >
           <ng-template #actionsColumn let-row>
-            <button class="buy-security" (click)="openBuyFuturePopup(row.original.listingId)">BUY</button>
+            <button class="buy-security" (click)="navigateToFuture(row.original.listingId)">BUY</button>
           </ng-template>
         </app-dynamic-table>
 
         <app-dynamic-table
           *ngIf="selectedTab === 'forex'"
           [headersArray]="[
-            'Ticker',
-            'Name',
-            'Exchange Name',
-            'Last Refresh',
-            'Price',
-            'High',
-            'Low',
-            'Price Change',
-            'Volume',
-            'Base Currency',
             'Quote Currency',
+            'Base Currency',
+            'Price',
+            'Exchange Name'
           ]"
           [dataArray]="forex | transformForex"
           [showActions]="true"

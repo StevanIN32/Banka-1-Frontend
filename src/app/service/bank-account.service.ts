@@ -3,16 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 // import { environment } from '../../../environment';
 // import { BankAccount, Exchange, Recipient, Payment, NewLimitDto } from '../model/model';
-import {
-  BankAccount,
-  Exchange,
-  Recipient,
-  Payment,
-  NewLimitDto,
-  User,
-  ContractCreateDto,
-  Contract
-} from '../model/model';
+import {BankAccount, Exchange, Recipient, Payment, NewLimitDto, User, ContractCreateDto} from '../model/model';
 import { environment } from '../../environments/environment';
 import {map} from "rxjs/operators";
 
@@ -207,12 +198,12 @@ export class BankAccountService {
     });
   }
 
-  makeAnOfferCustomer(security: any, volume: number, offer: number) : Observable<any>{
+  makeAnOfferCustomer(security: any, volume: number, offer: number){
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
     });
     const options = { headers: headers };
-    const body: ContractCreateDto = {
+    const body:  ContractCreateDto = {
       amountToBuy: volume,
       offerPrice: offer,
       bankAccountNumber: security.bankAccountNumber,
@@ -220,6 +211,8 @@ export class BankAccountService {
       listingType: security.listingType,
       ticker: security.ticker
     }
+    console.log("makeAnOffer")
+    console.log(body)
     return this.httpClient.post(environment.userService + "/contract/customer", body, options);
   }
 

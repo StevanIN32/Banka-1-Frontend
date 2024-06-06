@@ -1,9 +1,5 @@
 <div class="container">
   <div class="page">
-    <div class="limit-info" *ngIf="isAgent">
-      <h2>Limit: {{ orderLimitBalance == 0 ? 'no limit' : (orderLimitBalance | number:'1.2-2') }}</h2>
-      <h2>Available: {{ getAvailable() | number:'1.2-2' }}</h2>
-    </div>
     <div class="security-title">Orders</div>
     <div class="central-window">
       <div class="tabs-menu">

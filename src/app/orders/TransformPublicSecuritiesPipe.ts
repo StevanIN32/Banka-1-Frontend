@@ -5,13 +5,14 @@ import {CapitalProfitDto, PublicCapitalDto, PublicStock, StockListing, User} fro
   name: 'transformPublicSecurities'
 })
 export class TransformPublicSecuritiesPipe implements PipeTransform {
-  transform(securities: any[]): any[] {
+  transform(securities: PublicStock[]): any[] {
     return securities.map(security => ({
       SECURITY: security.listingType,
       SYMBOL: security.ticker,
       AMOUNT: security.amount,
+      PRICE: security.price,
       LAST_MODIFIED: security.lastModified,
-      OWNER: security.ownerName,
+      OWNER: security.bankAccount,
       original: security // Include the entire original user object for internal use
     }));
   }

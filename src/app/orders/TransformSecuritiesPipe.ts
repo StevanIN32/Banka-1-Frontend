@@ -5,23 +5,13 @@ import {CapitalProfitDto, User} from '../model/model'; // Adjust the import path
   name: 'transformSecurities'
 })
 export class TransformSecuritiesPipe implements PipeTransform {
-  transform(securities: any[]): any[] {
+  transform(securities: CapitalProfitDto[]): any[] {
     return securities.map(security => ({
-      // ACCOUNT_NUMBER: security.bankAccountNumber,
-      // CURRENCY: security.currencyName,
-      // TOTAL_PRICE: security.totalPrice,
-      // ACCOUNT_NUMBER: security.bankAccountNumber,
-      // CURRENCY: security.currencyName,
-      // LISTING_TYPE: security.listingType,
-      // TICKER: security.ticker,
-      // TOTAL: security.total,
-      // RESERVED: security.reserved,
       SECURITY: security.listingType,
       SYMBOL: security.ticker,
       AMOUNT: security.total,
       PRICE: security.totalPrice,
-      LAST_MODIFIED: security.lastModified,
-      // PROFIT: security.profit,
+      // PROFIT: 123,
       // LAST_MODIFIED: security.lastModified,
       original: security // Include the entire original user object for internal use
     }));

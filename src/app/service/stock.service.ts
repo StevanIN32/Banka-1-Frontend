@@ -89,7 +89,7 @@ export class StockService {
     return resp;
   }
 
-  async getStockByTicker(stockId: number): Promise<StockListing | null> {
+  async getStockById(stockId: number): Promise<StockListing | null> {
     const jwt = sessionStorage.getItem("jwt");
 
     if(!jwt) return null;
