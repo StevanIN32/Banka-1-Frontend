@@ -33,7 +33,7 @@
             <div>Customer</div>
           </div>
 
-          <div [routerLink]="'/securities'" class="sidebar-item" routerLinkActive="active"  *ngIf="!isLegalPerson">
+          <div [routerLink]="'/securities'" class="sidebar-item" routerLinkActive="active"  *ngIf="!isLegalPerson && (isAdmin || isAgent || isEmployee)">
             <div>Securities</div>
           </div>
 

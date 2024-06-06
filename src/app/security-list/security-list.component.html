@@ -54,6 +54,14 @@
         <app-dynamic-table
           *ngIf="selectedTab === 'stocks'"
           [headersArray]="[
+            'Ticker',
+            'Name',
+            'Last updated',
+            'Price',
+            'High',
+            'Low',
+            'Price change',
+            'Volume',
             'Outstanding Shares',
             'Exchange Name',
             'Dividend Yield',
@@ -69,9 +77,15 @@
         <app-dynamic-table
           *ngIf="selectedTab === 'future'"
           [headersArray]="[
-            'Contract Size',
-            'Contract Unit',
-            'Open Interest',
+            'Ticker',
+            'Name',
+            'Exchange',
+            'Last updated',
+            'Price',
+            'High',
+            'Low',
+            'Price change',
+            'Volume',
             'Settlement Date'
           ]"
           [dataArray]="futures | transformFuture"

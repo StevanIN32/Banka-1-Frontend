@@ -11,18 +11,15 @@ export class TransformFuturePipe implements PipeTransform {
       const date = new Date(fut.settlementDate);
       const formattedDate = new Intl.DateTimeFormat("en", {month: "long", year: "2-digit", day: "numeric"}).format(date);
       return {
-        // ticker: fut.ticker,
-        // name: fut.name,
-        // exchangeName: fut.exchangeName,
-        // lastRefresh: new Date(fut.lastRefresh).toLocaleString(),
-        // price: fut.price,
-        // high: fut.high,
-        // low: fut.low,
-        // priceChange: fut.priceChange,
-        // volume: fut.volume,
-        contractSize: fut.contractSize,
-        contractUnit: fut.contractUnit,
-        openInterest: fut.openInterest,
+        ticker: fut.ticker,
+        name: fut.name,
+        exchangeName: fut.exchangeName,
+        lastRefresh: new Date(fut.lastRefresh).toLocaleString(),
+        price: fut.price,
+        high: fut.high,
+        low: fut.low,
+        priceChange: fut.priceChange.toFixed(2),
+        volume: fut.volume,
         settlementDate: formattedDate,
         original: fut,
       };

@@ -21,6 +21,6 @@ export class OptionsService {
       })
     };
 
-    return this.http.get<OptionsDto[]>(environment.marketService + '/listing/get/options', httpOptions);
+    return this.http.get<OptionsDto[]>(environment.marketService + '/market/listing/get/options', httpOptions);
   }
 }
