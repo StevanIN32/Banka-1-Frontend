@@ -41,9 +41,18 @@ postsubmits:
               docker push harbor.k8s.elab.rs/${TEAM_NAME}/frontend:latest
               docker push harbor.k8s.elab.rs/${TEAM_NAME}/frontend:${commit_hash}
 
+              docker build --build-arg APP_ENV=build-dev -t harbor.k8s.elab.rs/${TEAM_NAME}/frontend-dev:latest .
+
+              # Pravi kopiju prethodno buildovanog image sa tagom zasnovanim na commit hash-u.
+              docker tag harbor.k8s.elab.rs/${TEAM_NAME}/frontend-dev:latest harbor.k8s.elab.rs/${TEAM_NAME}/frontend-dev:${commit_hash}
+
+              # Pushuje oba image na našu Harbor instancu.
+              docker push harbor.k8s.elab.rs/${TEAM_NAME}/frontend-dev:latest
+              docker push harbor.k8s.elab.rs/${TEAM_NAME}/frontend-dev:${commit_hash}
+
               helm upgrade --namespace="$TEAM_NAME-dev" --create-namespace --timeout=20m --atomic --install --set imageTag="${commit_hash}" "$TEAM_NAME-frontend" "oci://harbor.k8s.elab.rs/$TEAM_NAME/$TEAM_NAME-frontend/$TEAM_NAME-frontend"
               if [ "$PULL_BASE_REF" == "main" ]; then
-                helm upgrade --namespace="$TEAM_NAME-prod" --create-namespace --timeout=20m --atomic --install --set imageTag="${commit_hash}",host="$TEAM_NAME.si.raf.edu.rs" "$TEAM_NAME-frontend" "oci://harbor.k8s.elab.rs/$TEAM_NAME/$TEAM_NAME-frontend/$TEAM_NAME-frontend"
+                helm upgrade --namespace="$TEAM_NAME-prod" --create-namespace --timeout=20m --atomic --install --set imageName="frontend",imageTag="${commit_hash}",host="$TEAM_NAME.si.raf.edu.rs" "$TEAM_NAME-frontend" "oci://harbor.k8s.elab.rs/$TEAM_NAME/$TEAM_NAME-frontend/$TEAM_NAME-frontend"
               fi
           securityContext:
             privileged: true
