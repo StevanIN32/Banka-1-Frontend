@@ -68,7 +68,7 @@
           [showActions]="true"
         >
           <ng-template #actionsColumn let-row>
-            <button class="buy-security" (click)="navigateToStock(row.originalStock.listingId)">BUY</button>
+            <button class="buy-security" (click)="navigateToStock(row.originalStock.listingId)">DETAILS</button>
           </ng-template>
         </app-dynamic-table>
 
@@ -90,7 +90,7 @@
           [showActions]="true"
         >
           <ng-template #actionsColumn let-row>
-            <button class="buy-security" (click)="navigateToFuture(row.original.listingId)">BUY</button>
+            <button class="buy-security" (click)="navigateToFuture(row.original.listingId)">DETAILS</button>
           </ng-template>
         </app-dynamic-table>
 
@@ -106,7 +106,7 @@
           [showActions]="true"
         >
           <ng-template #actionsColumn let-row>
-            <button class="buy-security" (click)="navigateToForex(row.originalForex.listingId)">Detail</button>
+            <button class="buy-security" (click)="navigateToForex(row.originalForex.listingId)">DETAILS</button>
           </ng-template>
         </app-dynamic-table>
 

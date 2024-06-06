@@ -68,7 +68,7 @@ export const routes: Routes = [
     children: [
       { path: 'regular', component: OrdersComponent,
         canActivate: [PositionsGuard],
-        data: { roles: ['agent', 'supervizor', 'admin'] }},
+        data: { roles: ['agent', 'supervizor', 'admin', 'customer'] }},
       { path: 'legal', component: OrdersLegalPersonsComponent, canActivate: [LegalPersonGuard]},
     ]
   },
@@ -88,8 +88,8 @@ export const routes: Routes = [
       { path: 'forex/:ticker', component: ForexViewComponent},
       { path: 'future/:ticker', component: FutureViewComponent},
     ],
-    canActivate: [PositionsGuard],
-    data: { roles: ['agent', 'supervizor', 'admin'] }
+    canActivate: [PositionsGuard, ],
+    data: { roles: ['agent', 'supervizor', 'admin', 'customer'] }
   },
 
   {
