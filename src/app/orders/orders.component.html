@@ -37,7 +37,6 @@
             <tr>
               <th>Security</th>
               <th>Transaction</th>
-              <th>Symbol</th>
               <th>Amount</th>
               <th>Price</th>
               <th>Status</th>
@@ -48,7 +47,6 @@
             <tr *ngFor="let order of orderHistory">
               <td>{{ order.listingType }}</td>
               <td>{{ order.orderType }}</td>
-              <td>{{ order.status }}</td>
               <td>{{ order.contractSize }}</td>
               <td>{{ order.price }}</td>
               <td>{{ order.status }}</td>
@@ -63,7 +61,6 @@
           <tr>
             <th>Security</th>
             <th>Transaction</th>
-            <th>Symbol</th>
             <th>Amount</th>
             <th>Price</th>
             <th>Status</th>
@@ -74,7 +71,6 @@
           <tr *ngFor="let order of orderHistory | filterByStatus: OrderStatus.PROCESSING">
             <td>{{ order.listingType }}</td>
             <td>{{ order.orderType }}</td>
-            <td>{{ order.status }}</td>
             <td>{{ order.contractSize }}</td>
             <td>{{ order.price }}</td>
             <td>{{ order.status }}</td>
